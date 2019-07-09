@@ -56,4 +56,3 @@ To run the API execute the following command:
 ```
  gradle -Penvironment=development bootRun
 ```
-```
