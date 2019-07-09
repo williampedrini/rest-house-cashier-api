@@ -1,0 +1,45 @@
+#####################################
+###  TOMCAT SERVER CONFIGURATION ####
+#####################################
+server:
+  port: 8083
+  servlet:
+    context-path: /api
+#####################################
+##  Resource Server Configuration ###
+#####################################
+spring:
+  security:
+    oauth2:
+      resource-server:
+        id: RestHouseCashierApi
+        check-token-url: ${CASHIER_OAUTH_CHECK_TOKEN_URL}
+      client:
+        id: ${CASHIER_OAUTH_CLIENT_ID}
+        secret: ${CASHIER_OAUTH_CLIENT_SECRET}
+  #####################################
+  ####  Data Source Configuration #####
+  #####################################
+  datasource:
+    url: ${CASHIER_DATASOURCE_URL}
+    username: ${CASHIER_DATASOURCE_USERNAME}
+    password: ${CASHIER_DATASOURCE_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  #####################################
+  #######  Flyway Configuration #######
+  #####################################
+  flyway:
+    locations: ${CASHIER_FLYWAY_SCRIPT_LOCATION}
+    baseline-on-migrate: true
+  #####################################
+  ##  Message Broker Configuration ####
+  #####################################
+  activemq:
+    broker-url: ${CASHIER_MESSAGE_BROKER_URL}
+    user: ${CASHIER_MESSAGE_BROKER_USER}
+    password: ${CASHIER_MESSAGE_BROKER_PASSWORD}

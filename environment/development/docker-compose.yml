@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  cashier-message-broker:
+    image: rmohr/activemq:latest
+    container_name: cashier-message-broker
+    restart: always
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+  cashier-database:
+    image: postgres:latest
+    container_name: cashier-database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: rest-house
+      POSTGRES_USER: rest-house
+      POSTGRES_DB: rest-house-cashier
+    ports:
+      - "5433:5432"

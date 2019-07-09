@@ -1,0 +1,27 @@
+import java.nio.file.Files
+import java.nio.file.Path
+
+apply plugin: 'docker-compose'
+
+Files.createDirectories(Path.of(project.property('environment.development.messageBrokerConfigVolumeFolder')))
+Files.createDirectories(Path.of(project.property('environment.development.messageBrokerDataVolumeFolder')))
+
+dockerCompose {
+    useComposeFiles = ['environment/development/docker-compose.yml']
+    isRequiredBy(project.tasks.bootRun)
+}
+
+bootRun {
+    environment 'CASHIER_DATASOURCE_URL', project.property('environment.development.datasourceUrl')
+    environment 'CASHIER_DATASOURCE_USERNAME', project.property('environment.development.datasourceUsername')
+    environment 'CASHIER_DATASOURCE_PASSWORD', project.property('environment.development.datasourcePassword')
+    environment 'CASHIER_FLYWAY_SCRIPT_LOCATION', project.property('environment.development.flywayScriptLocation')
+
+    environment 'CASHIER_MESSAGE_BROKER_PASSWORD', project.property('environment.development.messageBrokerPassword')
+    environment 'CASHIER_MESSAGE_BROKER_URL', project.property('environment.development.messageBrokerUrl')
+    environment 'CASHIER_MESSAGE_BROKER_USER', project.property('environment.development.messageBrokerUsername')
+
+    environment 'CASHIER_OAUTH_CHECK_TOKEN_URL', project.property('environment.development.oauthCheckTokenUrl')
+    environment 'CASHIER_OAUTH_CLIENT_ID', project.property('environment.development.oauthClientId')
+    environment 'CASHIER_OAUTH_CLIENT_SECRET', project.property('environment.development.oauthClientSecret')
+}
